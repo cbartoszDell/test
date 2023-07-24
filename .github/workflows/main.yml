@@ -1,5 +1,5 @@
 name: ort
-on: [pull-request]
+on: [push]
 jobs:
   ort:
     runs-on: ubuntu-latest
