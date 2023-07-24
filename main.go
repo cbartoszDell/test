@@ -1,27 +1,49 @@
 package main
 
 import (
-  "github.com/labstack/echo/v4"
-  "github.com/labstack/echo/v4/middleware"
-  "net/http"
+	"github.com/NaySoftware/go-fcm"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"net/http"
+)
+
+const (
+	serverKey = "YOUR-KEY"
+	topic     = "/topics/someTopic"
 )
 
 func main() {
-  // Echo instance
-  e := echo.New()
+	data := map[string]string{
+		"msg": "Hello World1",
+		"sum": "Happy Day",
+	}
 
-  // Middleware
-  e.Use(middleware.Logger())
-  e.Use(middleware.Recover())
+	c := fcm.NewFcmClient(serverKey)
+	c.NewFcmMsgTo(topic, data)
 
-  // Routes
-  e.GET("/", hello)
+	status, err := c.Send()
 
-  // Start server
-  e.Logger.Fatal(e.Start(":1323"))
+	if err == nil {
+		status.PrintResults()
+	} else {
+		fmt.Println(err)
+	}
+
+	// Echo instance
+	e := echo.New()
+
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	// Routes
+	e.GET("/", hello)
+
+	// Start server
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
 // Handler
 func hello(c echo.Context) error {
-  return c.String(http.StatusOK, "Hello, World!")
+	return c.String(http.StatusOK, "Hello, World!")
 }
