@@ -2,7 +2,10 @@ module github.com/cbartoszDell/test
 
 go 1.20
 
-require github.com/labstack/echo/v4 v4.11.1
+require (
+	github.com/NaySoftware/go-fcm v0.0.0-20190516140123-808e978ddcd2
+	github.com/labstack/echo/v4 v4.11.1
+)
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
